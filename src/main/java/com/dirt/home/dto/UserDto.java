@@ -7,6 +7,7 @@ public class UserDto {
     private String contact;
     private String bio;
     private String websiteLink;
+    private String role;
 
     // Getters and Setters
 
@@ -14,7 +15,15 @@ public class UserDto {
         return id;
     }
 
-    public void setId(Long id) {
+    public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
+
+	public void setId(Long id) {
         this.id = id;
     }
 

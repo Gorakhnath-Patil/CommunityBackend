@@ -1,10 +1,10 @@
-// UserServiceImpl class
 package com.dirt.home.service;
 
 import com.dirt.home.dto.UserDto;
 import com.dirt.home.exception.ResourceNotFoundException;
 import com.dirt.home.model.User;
 import com.dirt.home.repository.UserRepository;
+import org.modelmapper.ModelMapper; // Import ModelMapper
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,17 +18,24 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final ModelMapper modelMapper; // Inject ModelMapper
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository, ModelMapper modelMapper) {
         this.userRepository = userRepository;
+        this.modelMapper = modelMapper; // Initialize the injected ModelMapper
     }
 
     @Override
     public UserDto createUser(UserDto userDto) {
-        // Implement user creation logic and return the created UserDto
-        // For simplicity, I'll omit the creation logic here
-        return userDto;
+        // Map UserDto to User entity using ModelMapper
+        User newUser = modelMapper.map(userDto, User.class);
+
+        // Save the new user entity
+        User savedUser = userRepository.save(newUser);
+
+        // Map the saved user entity back to UserDto
+        return modelMapper.map(savedUser, UserDto.class);
     }
 
     @Override
@@ -60,8 +67,6 @@ public class UserServiceImpl implements UserService {
 
     // Helper method to map User to UserDto
     private UserDto mapUserToUserDto(User user) {
-        // Implement mapping code here
-        // For simplicity, I'll omit the mapping code here
-        return null;
+        return modelMapper.map(user, UserDto.class); // Use ModelMapper to map entities
     }
 }

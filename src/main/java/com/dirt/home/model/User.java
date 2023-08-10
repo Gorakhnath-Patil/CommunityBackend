@@ -30,8 +30,19 @@ public class User {
 
     @Column(nullable = false, length = 100)
     private String email;
+    
+    @Column(nullable = false, length = 30)
+    private String role;
+    
+    public String getRole() {
+		return role;
+	}
+    @Column(nullable = false, length = 30)
+	public void setRole(String role) {
+		this.role = role;
+	}
 
-    @Column(length = 20)
+	@Column(length = 20)
     private String contact;
 
     @Column(length = 500)
